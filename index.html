@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            z-index: 1;
+        }
+        
+        h1 {
+            color: #ff4081;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            color: #333;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+        
+        #birthdayPerson,
+        #sender {
+            font-weight: bold;
+            color: #3f51b5;
+        }
+        
+        #nameInput {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 1em;
+            width: 200px;
+        }
+        
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        #message {
+            display: none;
+        }
+        
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+        }
+        
+        @keyframes explode {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(30);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes flicker {
+            0% {
+                transform: translateX(-50%) scaleY(1);
+            }
+            100% {
+                transform: translateX(-50%) scaleY(0.8);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="birthdaySong" loop>
+        <source src="https://soundcloud.com/diky-dharmawan-905972545/happy-birthday-to-you-piano?si=d859fab9050d4d11943c6db63b35382c&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" type="audio/mpeg">
+    </audio>
+    <div class="card">
+        <div id="inputSection">
+            <h1>Masukkan Nama Anda</h1>
+            <input type="text" id="nameInput" placeholder="Masukkan nama kamu">
+            <button id="submitButton">Kirim</button>
+        </div>
+        <div id="message">
+            <h1>Selamat Ulang Tahun!</h1>
+            <div class="cake">
+                <div class="candle">
+                    <div class="flame"></div>
+                </div>
+            </div>
+            <p>Hari ini adalah hari spesialmu, <span id="birthdayPerson"></span>!</p>
+            <p>Semoga tahun ini membawa kebahagiaan, kesuksesan, dan keberuntungan untukmu.</p>
+            <p>Ucapan ini dikirim dengan penuh kasih oleh: <span id="sender">~Diky Dharmawan</span></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameInput = document.getElementById('nameInput');
+            const submitButton = document.getElementById('submitButton');
+            const inputSection = document.getElementById('inputSection');
+            const message = document.getElementById('message');
+            const birthdayPerson = document.getElementById('birthdayPerson');
+            const birthdaySong = document.getElementById('birthdaySong');
+
+            function playBirthdaySong() {
+                birthdaySong.play();
+            }
+
+            function createFireworks() {
+                for (let i = 0; i < 500; i++) {
+                    setTimeout(() => {
+                        const firework = document.createElement('div');
+                        firework.classList.add('firework');
+                        firework.style.left = Math.random() * 100 + 'vw';
+                        firework.style.top = Math.random() * 100 + 'vh';
+                        firework.style.backgroundColor = getRandomColor();
+                        document.body.appendChild(firework);
+
+                        setTimeout(() => {
+                            firework.remove();
+                        }, 1000);
+                    }, i * 100);
+                }
+            }
+
+            function getRandomColor() {
+                return '#' + Math.floor(Math.random() * 16777215).toString(16);
+            }
+
+            submitButton.addEventListener('click', function() {
+                const name = nameInput.value.trim();
+                if (name) {
+                    birthdayPerson.textContent = name;
+                    inputSection.style.display = 'none';
+                    message.style.display = 'block';
+                    createFireworks();
+                    playBirthdaySong();
+                }
+            });
+
+            nameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    submitButton.click();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
